@@ -10,7 +10,6 @@ const IVSPackage = window.IVSPlayer;
 class PlayerDemo {
     private player: any;
     private videoElement: HTMLVideoElement = document.querySelector('#video-player');
-
     constructor(stream: string) {
         if (!IVSPackage.isPlayerSupported) {
             throw new Error('IVS Player is not supported in this browser');
@@ -41,6 +40,16 @@ class PlayerDemo {
         for (let state of Object.values(PlayerState)) {
             player.addEventListener(state, () => {
                 console.log(state);
+
+                if (state === PlayerState.PLAYING) {
+                    const qualityStr: HTMLElement = document.querySelector('.quality');
+                    const quality = player.getQuality()
+                    qualityStr.innerText = `getQuality(): ${JSON.stringify(quality)}`
+
+                    const qualitiesStr: HTMLElement = document.querySelector('.qualities');
+                    const qualities = player.getQualities()
+                    qualitiesStr.innerText = `getQualities(): ${JSON.stringify(qualities)}`
+                }
             });
         }
 
